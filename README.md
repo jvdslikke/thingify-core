@@ -4,7 +4,9 @@ Easy-to-use home automation software with containerized plugins.
 
 # The idea
 
-I found Home Assistant quite difficult to use. A new plugin was hard to get included because a pull request had to be accepted, while they have a lot of open pull requests. If plugins could run in containers, they can be secured so no need to have them reviewed. 
+I found Home Assistant quite difficult to use. 
+
+Also a new plugin was hard to get included because a pull request had to be accepted, while they have a lot of open pull requests. If plugins could run in containers, they can be secured so no need to have them reviewed. 
 
 # Roadmap
 
