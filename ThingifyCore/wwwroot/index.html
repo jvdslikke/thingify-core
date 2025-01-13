@@ -91,19 +91,19 @@
                 <div class="position-sticky pt-3 ps-3 sidebar-sticky">
                     <ul class="nav flex-column" id="navbar">
                         <li class="nav-item">
-                            <button class="btn nav-link active" data-bs-toggle="tab" data-bs-target="#tab-dashboard">
+                            <button class="btn nav-link active ti-page-tab" data-bs-toggle="tab" data-bs-target="#tab-dashboard">
                                 <span data-feather="home" class="align-text-bottom"></span>
                                 Dashboard
                             </button>
                         </li>
                         <li class="nav-item">
-                            <button class="btn nav-link" data-bs-toggle="tab" data-bs-target="#tab-apps">
+                            <button class="btn nav-link ti-page-tab" data-bs-toggle="tab" data-bs-target="#tab-apps">
                                 <span data-feather="layers" class="align-text-bottom"></span>
                                 Apps
                             </button>
                         </li>
                         <li class="nav-item">
-                            <button class="btn nav-link" data-bs-toggle="tab" data-bs-target="#tab-development">
+                            <button class="btn nav-link ti-page-tab" data-bs-toggle="tab" data-bs-target="#tab-development">
                                 <span data-feather="tool" class="align-text-bottom"></span>
                                 Development
                             </a>
@@ -184,7 +184,12 @@
 
                 <!-- tab apps -->
                 <div class="tab-pane" id="tab-apps">
-                    <p>Here comes the app store.</p>
+                    <h1 class="h2">Apps</h1>
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="ti-page-content">
+                    </div>
                 </div>
 
                 <!-- tab apps -->
@@ -218,6 +223,9 @@
 
     <script>
 
+        /**
+         * To fill things in main menu
+         **/
         function createThingHtml(thing, navbarJq, level, parentTabId) {
             var tabId = thing.id;
 
@@ -260,6 +268,52 @@
         thingsRequest.always(function(){
             $("#things-loading-spinner").addClass("d-none");
         });
+
+        /**
+         * For loading page contents
+         **/
+        const pageAppsId = "#tab-apps"
+
+        const pageTabs = document.querySelectorAll(".ti-page-tab")
+        for (const pageTab of pageTabs) {
+            pageTab.addEventListener('shown.bs.tab', event => {
+                // When page is navigated to, fill its contents.
+                switch (event.target.dataset.bsTarget) {
+                    case pageAppsId:
+                        fillPageApps()
+                        break;
+                }
+            })
+            pageTab.addEventListener('hidden.bs.tab', event => {
+                // When page is nagivated away from
+                const pageTab = document.querySelector(event.target.dataset.bsTarget)
+                if (pageTab) {
+                    // remove contents
+                    const contentsDiv = pageTab.querySelector(".ti-page-content");
+                    if (contentsDiv) {
+                        contentsDiv.replaceChildren()
+                    }
+                    // show spinner
+                    const spinner = pageTab.querySelector(".spinner-border");
+                    if (spinner) {
+                        spinner.classList.remove("d-none")
+                    }
+                }
+            })
+        }
+
+        function fillPageApps() {
+            const pageTab = document.querySelector(pageAppsId)
+            const pageContentsDiv = pageTab.querySelector(".ti-page-content")
+
+            var appsRequest = $.get("api-rest/apps", function(data) {
+                pageContentsDiv.append(data)
+            })
+
+            appsRequest.always(function() {
+                pageTab.querySelector(".spinner-border").classList.add("d-none")
+            })
+        }
 
     </script>
 </body>
