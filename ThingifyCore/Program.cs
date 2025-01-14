@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using ThingifyCore.BackgroundService;
 using ThingifyCore.Models;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace ThingifyCore;
 
@@ -33,6 +34,8 @@ public class Program
                 return result;
             });
         });
+
+        builder.Services.AddHttpClient<PodmanService>().ConfigurePrimaryHttpMessageHandler(PodmanService.CreateSocketsHttpHandler);
 
         builder.Services.AddSingleton<IThingsRepository>(ctx =>
         {

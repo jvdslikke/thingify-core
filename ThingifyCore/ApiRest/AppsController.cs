@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging; 
 using ThingifyCore.Models;
 using ThingifyCore.BackgroundService;
+using System;
+using System.Threading.Tasks;
 
 namespace ThingifyCore.ApiRest;
 
@@ -11,19 +13,19 @@ namespace ThingifyCore.ApiRest;
 public class AppsController : ControllerBase
 {
     private readonly ILogger<AppsController> _logger;
+    private readonly PodmanService _podmanService;
 
     public AppsController(
-        ILogger<AppsController> logger)
+        ILogger<AppsController> logger,
+        PodmanService podmanService)
     {
         _logger = logger;
+        _podmanService = podmanService;
     }
 
     [HttpGet(Name = "GetApps")]
-    public IEnumerable<object> Get()
+    public Task<string> Get()
     {
-        return new object[] {
-            new string[] { "boe" , "bah" },
-            new Dictionary<string, string> { { "key1", "val1" }, { "key2", "val2" } }
-        };
+        return _podmanService.ListImages();
     }
 }
