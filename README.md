@@ -22,6 +22,14 @@ Main service in docker.
 
 Apps/plugins running in docker. Only permission to access what they need. 
 
+```mermaid
+  graph TD;
+      A-->B;
+      A-->C;
+      B-->D;
+      C-->D;
+```
+
 ## PoC docker network setup (in progress)
 
 Run container for main service:
