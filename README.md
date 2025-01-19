@@ -23,11 +23,21 @@ Main service in docker.
 Apps/plugins running in docker. Only permission to access what they need. 
 
 ```mermaid
-  graph TD;
-      A-->B;
-      A-->C;
-      B-->D;
-      C-->D;
+block-beta
+    block:os
+        columns 2
+        ost("OS (Fedora CoreOS?)"):2
+        Cockpit
+        block:podman
+            columns 1
+            podmant("Podman")
+            thingc("Thingify-core")
+        end
+    end
+
+class ost BT
+class podmant BT
+classDef BT stroke:transparent,fill:transparent
 ```
 
 ## PoC docker network setup (in progress)
