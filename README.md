@@ -28,14 +28,19 @@ block-beta
         columns 2
         ost("OS (Fedora CoreOS?)"):2
         Cockpit
-        block:podman
+        block usr 
+            usrt("User")
             columns 1
-            podmant("Podman")
-            thingc("Thingify-core")
+            block:podman
+                columns 1
+                podmant("Podman")
+                thingc("Thingify-core")
+            en
         end
     end
 
 class ost BT
+class usert BT
 class podmant BT
 classDef BT stroke:transparent,fill:transparent
 ```
